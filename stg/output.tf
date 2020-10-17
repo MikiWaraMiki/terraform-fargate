@@ -35,3 +35,8 @@ output "rds_sg_id" {
   description = "rds security group id"
   value       = "${module.security_group.rds_sg_id}"
 }
+
+output "elastic_cache_sg_id" {
+  description = "elastic cache security group id"
+  value       = "${module.security_group.elastic_cache_sg_id}"
+}
