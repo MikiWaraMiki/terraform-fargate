@@ -19,3 +19,10 @@ module "network" {
   acl_ingress_black_list = "${var.acl_ingress_black_list}"
   acl_egress_black_list  = "${var.acl_egress_black_list}"
 }
+
+module "security_group" {
+  source                = "../shared/modules/security_group/"
+  pjprefix              = "${var.pjprefix}"
+  vpc_id                = "${module.network.vpc_id}"
+  allow_alb_ingress_ips = "${var.allow_alb_ingress_ips}"
+}
