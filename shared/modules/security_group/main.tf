@@ -10,6 +10,10 @@ variable "allow_alb_ingress_ips" {
   type    = list(string)
   default = []
 }
+variable "allow_mysql_ingress_ips" {
+  type    = list(string)
+  default = []
+}
 
 
 module "alb_sg" {
@@ -26,4 +30,12 @@ module "web_sg" {
   vpc_id    = "${var.vpc_id}"
   pjprefix  = "${var.pjprefix}"
   alb_sg_id = "${module.alb_sg.sg_id}"
+}
+
+module "rds_sg" {
+  source                  = "./rds"
+  vpc_id                  = "${var.vpc_id}"
+  pjprefix                = "${var.pjprefix}"
+  web_sg_id               = "${module.web_sg.sg_id}"
+  allow_mysql_ingress_ips = "${var.allow_mysql_ingress_ips}"
 }

@@ -30,3 +30,8 @@ output "web_sg_id" {
   description = "web security group id"
   value       = "${module.security_group.web_sg_id}"
 }
+
+output "rds_sg_id" {
+  description = "rds security group id"
+  value       = "${module.security_group.rds_sg_id}"
+}

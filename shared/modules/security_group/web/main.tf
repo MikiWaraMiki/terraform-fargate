@@ -18,7 +18,7 @@ variable "alb_sg_id" {
 ##########################
 resource "aws_security_group" "web_security_group" {
   name        = "web-sg-${var.pjprefix}"
-  description = "Web SecurityGroup. Allow http via alb, and optional."
+  description = "Web Security Group. Allow http via alb, and optional."
   vpc_id      = "${var.vpc_id}"
 
   tags = {
