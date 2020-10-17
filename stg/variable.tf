@@ -81,9 +81,11 @@ variable "acl_ingress_black_list" {
       from_port  = 443,
       to_port    = 443
     },
-
   ]
 }
 variable "acl_egress_black_list" {
   default = []
+}
+variable "allow_alb_ingress_ips" {
+  default = ["150.249.207.68/32"]
 }

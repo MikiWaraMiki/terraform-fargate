@@ -3,6 +3,11 @@ output "vpc_id" {
   value       = "${module.vpc.vpc_id}"
 }
 
+output "public_subnet_ids" {
+  description = "subnet ids for alb"
+  value       = "${module.subnet.public_subnet_ids}"
+}
+
 output "web_subnet_ids" {
   description = "subnet ids for web server"
   value       = "${module.subnet.web_subnet_ids}"
