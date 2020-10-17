@@ -87,5 +87,5 @@ variable "acl_egress_black_list" {
   default = []
 }
 variable "allow_alb_ingress_ips" {
-  default = ["150.249.207.68/32"]
+  default = []
 }
