@@ -10,7 +10,7 @@ variable "web_sg_id" {
   type    = string
   default = ""
 }
-variable "allow_mysql_ingress_ips" {
+variable "allow_rds_ingress_ips" {
   type    = list(string)
   default = []
 }
@@ -43,12 +43,12 @@ resource "aws_security_group_rule" "allow_mysql_via_websg" {
   security_group_id        = "${aws_security_group.rds_security_group.id}"
 }
 resource "aws_security_group_rule" "allow_mysql_via_allow_ip" {
-  count             = "${length(var.allow_mysql_ingress_ips)}"
+  count             = "${length(var.allow_rds_ingress_ips)}"
   type              = "ingress"
   from_port         = "${var.rds_port}"
   to_port           = "${var.rds_port}"
   protocol          = "tcp"
-  cidr_blocks       = "${var.allow_mysql_ingress_ips}"
+  cidr_blocks       = "${var.allow_rds_ingress_ips}"
   security_group_id = "${aws_security_group.rds_security_group.id}"
 }
 
