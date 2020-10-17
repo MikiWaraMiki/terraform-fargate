@@ -1,7 +1,8 @@
+# These variable read by tfvar files
 variable "region" {}
-
 variable "profile" {}
 
+# Project Variables
 variable "pjprefix" {
   default = "stg-tf-test"
 }
@@ -63,4 +64,26 @@ variable "elastic_cache_subnets" {
       az   = "ap-northeast-1c"
     }
   ]
+}
+variable "acl_ingress_black_list" {
+  default = [
+    {
+      protocol   = "tcp"
+      rule_no    = "1"
+      cidr_block = "34.83.207.109/32"
+      from_port  = 80,
+      to_port    = 80
+    },
+    {
+      protocol   = "tcp"
+      rule_no    = "2"
+      cidr_block = "34.83.207.109/32"
+      from_port  = 443,
+      to_port    = 443
+    },
+
+  ]
+}
+variable "acl_egress_black_list" {
+  default = []
 }
