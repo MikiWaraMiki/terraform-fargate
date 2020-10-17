@@ -25,3 +25,8 @@ output "alb_sg_id" {
   description = "security group id of alb "
   value       = "${module.security_group.alb_sg_id}"
 }
+
+output "web_sg_id" {
+  description = "web security group id"
+  value       = "${module.security_group.web_sg_id}"
+}
