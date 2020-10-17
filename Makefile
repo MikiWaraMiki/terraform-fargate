@@ -4,22 +4,22 @@ move-stg:
 	cd stg
 init-stg:
 	make move-stg
-	make check
+	make check-stg
 	terraform init
 plan-stg:
 	make move-stg
-	make check
-	terraform plan
+	make check-stg
+	terraform plan -var-file="config.tfvars"
 apply-stg:
 	make move-stg
-	make check
+	make check-stg
 	terraform apply
 destroy-stg:
 	make move-stg
-	make check
-	terraform destroy
+	make check-stg
+	terraform destroy -var-file="config.tfvars"
 check-stg:
 	make move-stg
 	terraform fmt -recursive
 	terraform fmt -check
-	terraform validate
+	terraform validate -var-file="config.tfvars"

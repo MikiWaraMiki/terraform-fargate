@@ -215,9 +215,13 @@ resource "aws_route_table_association" "route_table_association_for_elasticcache
 }
 
 
+output "public_subnet_ids" {
+  description = "subnet ids for alb"
+  value       = "${aws_subnet.public_subnets.*.id}"
+}
 output "web_subnet_ids" {
   description = "subnet ids for web server"
-  value       = "${aws_subnet.public_subnets.*.id}"
+  value       = "${aws_subnet.web_subnets.*.id}"
 }
 
 output "database_subnet_ids" {
