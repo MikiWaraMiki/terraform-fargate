@@ -92,3 +92,11 @@ variable "allow_alb_ingress_ips" {
 variable "acm_domain" {
   default = ""
 }
+
+# Route53
+variable "is_create_host_zone" {
+  default = false
+}
+variable "zone_name" {
+  default = "tokoro-ga-dokkoi.com"
+}

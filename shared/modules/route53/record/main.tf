@@ -2,7 +2,7 @@ variable "zone_id" {
   type    = string
   default = ""
 }
-variable "zone_name" {
+variable "name" {
   type    = string
   default = ""
 }
@@ -32,7 +32,7 @@ variable "records" {
 #################################
 resource "aws_route53_record" "main_route" {
   zone_id = "${var.zone_id}"
-  name    = "${var.zone_name}"
+  name    = "${var.name}"
   type    = "${var.record_type}"
 
   dynamic "alias" {
