@@ -45,11 +45,10 @@ module "route53_alb" {
   zone_name           = "${var.zone_name}"
   # ALBのエイリアス追加
   route_list = [{
-    is_alias_record = true,
-    name            = "tokoro-ga-dokkoi.com",
-    record_type     = "A",
-    ttl             = null,
-    records         = null,
+    name        = "tokoro-ga-dokkoi.com",
+    record_type = "A",
+    ttl         = null,
+    records     = null,
     alias_config = {
       name                   = "${module.alb.alb_dns_name}",
       zone_id                = "${module.alb.alb_zone_id}",

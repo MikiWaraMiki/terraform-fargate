@@ -52,17 +52,3 @@ resource "aws_route53_record" "non_alias_record" {
     }
   }
 }
-
-# # ALIASレコード作成用途
-# resource "aws_route53_record" "alias_record" {
-#   count   = "${var.is_alias_record ? 1 : 0}"
-#   zone_id = "${var.zone_id}"
-#   name    = "${var.name}"
-#   type    = "${var.record_type}"
-
-#   alias {
-#     name                   = lookup(var.alias_config, "name", null)
-#     zone_id                = lookup(var.alias_config, "zone_id", null)
-#     evaluate_target_health = lookup(var.alias_config, "evaluate_target_health", false)
-#   }
-# }

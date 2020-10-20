@@ -24,10 +24,9 @@ variable "pjprefix" {
 variable "route_list" {
   type = list(object(
     {
-      is_alias_record = bool,
-      name            = string,
-      record_type     = string,
-      ttl             = number,
+      name        = string,
+      record_type = string,
+      ttl         = number,
       alias_config = object({
         name                   = string,
         zone_id                = string,
@@ -63,9 +62,8 @@ module "route53_record" {
   source = "./record"
 
   # variable
-  zone_id = var.is_create_host_zone ? aws_route53_zone.main_zone[0].id : data.aws_route53_zone.selected_zone[0].id
-  name    = lookup(element(var.route_list, count.index), "name", null)
-  #is_alias_record = lookup(element(var.route_list, count.index), "is_alias_record", false)
+  zone_id      = var.is_create_host_zone ? aws_route53_zone.main_zone[0].id : data.aws_route53_zone.selected_zone[0].id
+  name         = lookup(element(var.route_list, count.index), "name", null)
   record_type  = lookup(element(var.route_list, count.index), "record_type", null)
   ttl          = lookup(element(var.route_list, count.index), "ttl", null)
   records      = lookup(element(var.route_list, count.index), "records", null)
