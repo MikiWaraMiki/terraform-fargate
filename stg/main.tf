@@ -45,7 +45,7 @@ module "route53_alb" {
   zone_name           = "${var.zone_name}"
   # ALBのエイリアス追加
   route_list = [{
-    name        = "tokoro-ga-dokkoi.com",
+    name        = "${var.acm_domain}",
     record_type = "A",
     ttl         = null,
     records     = null,
