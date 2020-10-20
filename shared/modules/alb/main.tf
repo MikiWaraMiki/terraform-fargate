@@ -80,7 +80,7 @@ resource "aws_lb_listener" "frontend_https" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-
+  certificate_arn   = "${data.aws_acm_certificate.alb_domain[0].arn}"
   default_action {
     type             = "forward"
     target_group_arn = "${aws_lb_target_group.main_alb_tg.arn}"
@@ -100,9 +100,4 @@ resource "aws_lb_listener" "frontend_http" {
       status_code = "HTTP_301"
     }
   }
-}
-resource "aws_lb_listener_certificate" "https_certificate" {
-  count           = "${var.certification_domain == "" ? 0 : 1}"
-  listener_arn    = "${aws_lb_listener.frontend_https[0].arn}"
-  certificate_arn = "${data.aws_acm_certificate.alb_domain[0].arn}"
 }

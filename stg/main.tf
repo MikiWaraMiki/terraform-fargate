@@ -35,3 +35,26 @@ module "alb" {
   security_group_ids   = "${[module.security_group.alb_sg_id]}"
   certification_domain = "${var.acm_domain}"
 }
+
+
+module "route53_alb" {
+  source = "../shared/modules/route53"
+
+  pjprefix            = "${var.pjprefix}"
+  is_create_host_zone = "${var.is_create_host_zone}"
+  zone_name           = "${var.zone_name}"
+  # ALBのエイリアス追加
+  route_list = [{
+    name        = "${var.acm_domain}",
+    record_type = "A",
+    ttl         = null,
+    records     = null,
+    alias_config = {
+      name                   = "${module.alb.alb_dns_name}",
+      zone_id                = "${module.alb.alb_zone_id}",
+      evaluate_target_health = true
+    }
+  }]
+
+  depends_on = [module.alb]
+}
