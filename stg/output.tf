@@ -40,3 +40,16 @@ output "elastic_cache_sg_id" {
   description = "elastic cache security group id"
   value       = "${module.security_group.elastic_cache_sg_id}"
 }
+
+output "alb_id" {
+  description = "alb ids"
+  value       = "${module.alb.alb_id}"
+}
+output "alb_arn" {
+  description = "alb arn"
+  value       = "${module.alb.alb_arn}"
+}
+output "alb_dns_name" {
+  description = "alb dns name"
+  value       = "${module.alb.alb_dns_name}"
+}

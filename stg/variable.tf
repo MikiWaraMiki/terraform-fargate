@@ -89,3 +89,6 @@ variable "acl_egress_black_list" {
 variable "allow_alb_ingress_ips" {
   default = []
 }
+variable "acm_domain" {
+  default = ""
+}

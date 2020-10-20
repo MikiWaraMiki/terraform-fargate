@@ -26,3 +26,12 @@ module "security_group" {
   vpc_id                = "${module.network.vpc_id}"
   allow_alb_ingress_ips = "${var.allow_alb_ingress_ips}"
 }
+
+module "alb" {
+  source               = "../shared/modules/alb"
+  vpc_id               = "${module.network.vpc_id}"
+  pjprefix             = "${var.pjprefix}"
+  launch_subnet_ids    = "${module.network.public_subnet_ids}"
+  security_group_ids   = "${[module.security_group.alb_sg_id]}"
+  certification_domain = "${var.acm_domain}"
+}
