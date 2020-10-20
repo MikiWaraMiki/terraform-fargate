@@ -58,3 +58,14 @@ module "route53_alb" {
 
   depends_on = [module.alb]
 }
+
+
+module "elastic_cache" {
+  source = "../shared/modules/elastic_cache"
+
+  is_create_parameter_group = var.elastic_cache_params.is_create_parameter_group
+  parameter_group_vars      = var.elastic_cache_params.parameter_group_vars
+  is_create_subnet_group    = var.elastic_cache_params.is_create_subnet_group
+  subnet_ids                = module.network.elastic_cache_subnet_ids
+  pjprefix                  = var.pjprefix
+}

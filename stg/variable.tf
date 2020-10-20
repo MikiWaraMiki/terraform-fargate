@@ -98,3 +98,20 @@ variable "is_create_host_zone" {
 }
 variable "zone_name" {
 }
+
+# Elastic Cache
+variable "elastic_cache_params" {
+  default = {
+    is_create_parameter_group : true,
+    parameter_group_vars : {
+      family = "redis5.0"
+      parameters = [
+        {
+          name  = "cluster-enabled",
+          value = "no"
+        }
+      ]
+    },
+    is_create_subnet_group : true,
+  }
+}

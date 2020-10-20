@@ -41,6 +41,7 @@ output "elastic_cache_sg_id" {
   value       = "${module.security_group.elastic_cache_sg_id}"
 }
 
+# ALB
 output "alb_id" {
   description = "alb ids"
   value       = "${module.alb.alb_id}"
@@ -52,4 +53,18 @@ output "alb_arn" {
 output "alb_dns_name" {
   description = "alb dns name"
   value       = "${module.alb.alb_dns_name}"
+}
+
+# ElasticCache
+output "ec_parameter_group_id" {
+  description = "ElastiCache parameter group id"
+  value       = module.elastic_cache.parameter_group_id
+}
+output "ec_parameter_group_name" {
+  description = "ElastiCache parameter group name"
+  value       = module.elastic_cache.parameter_group_name
+}
+output "ec_subnet_group_name" {
+  description = "ElasticCache subnet group name"
+  value       = module.elastic_cache.subnet_group_name
 }
