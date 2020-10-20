@@ -98,5 +98,5 @@ variable "is_create_host_zone" {
   default = false
 }
 variable "zone_name" {
-  default = "tokoro-ga-dokkoi.com"
+  default = "tokoro-ga-dokkoi.com."
 }
