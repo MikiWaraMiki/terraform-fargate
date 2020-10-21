@@ -98,3 +98,32 @@ variable "is_create_host_zone" {
 }
 variable "zone_name" {
 }
+
+# Elastic Cache
+variable "elastic_cache_params" {
+  default = {
+    is_create_parameter_group : true,
+    parameter_group_vars : {
+      family = "redis5.0"
+      parameters = [
+        {
+          name  = "cluster-enabled",
+          value = "no"
+        }
+      ]
+    },
+    is_create_subnet_group : true,
+    is_create_repl_group : true,
+    repl_group_vars : {
+      engine                   = "redis",
+      engine_version           = "5.0.6"
+      number_cache_clusters    = 2,
+      node_type                = "cache.t3.micro",
+      snapshot_window          = "18:10-19:10",
+      snapshot_retention_limit = "2",
+      maintenance_window       = "sun:19:45-sun:20:45",
+      port                     = 6379,
+      apply_immediately        = false,
+    }
+  }
+}

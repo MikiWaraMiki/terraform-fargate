@@ -2,7 +2,6 @@
 ARG = hoge
 
 init-stg:
-	make check-stg
 	terraform init -backend-config="./stg.tfbackend" -backend-config="${ARG}"
 plan-stg:
 	make check-stg
