@@ -67,5 +67,8 @@ module "elastic_cache" {
   parameter_group_vars      = var.elastic_cache_params.parameter_group_vars
   is_create_subnet_group    = var.elastic_cache_params.is_create_subnet_group
   subnet_ids                = module.network.elastic_cache_subnet_ids
+  is_create_repl_group      = var.elastic_cache_params.is_create_repl_group
+  repl_group_vars           = var.elastic_cache_params.repl_group_vars
+  security_group_ids        = [module.security_group.elastic_cache_sg_id]
   pjprefix                  = var.pjprefix
 }
