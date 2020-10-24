@@ -127,3 +127,14 @@ variable "elastic_cache_params" {
     }
   }
 }
+
+# ECR
+variable "ecr_params" {
+  default = {
+    tag_mutability                = "MUTABLE",
+    scanning_enable               = true,
+    is_create_lifecycle           = true,
+    decoded_json_lifecycle_policy = "./variable/ecr/lifecycle_policy.yml",
+    is_create_ecr_policy          = false,
+  }
+}

@@ -72,3 +72,16 @@ module "elastic_cache" {
   security_group_ids        = [module.security_group.elastic_cache_sg_id]
   pjprefix                  = var.pjprefix
 }
+
+
+module "ecr" {
+  source = "../shared/modules/ecr"
+
+  pjprefix                      = var.pjprefix
+  tag_mutability                = var.ecr_params.tag_mutability
+  scanning_enable               = var.ecr_params.scanning_enable
+  is_create_lifecycle           = var.ecr_params.is_create_lifecycle
+  decoded_json_lifecycle_policy = var.ecr_params.is_create_lifecycle ? jsonencode(yamldecode(file(var.ecr_params.decoded_json_lifecycle_policy))) : ""
+  is_create_ecr_policy          = var.ecr_params.is_create_ecr_policy
+  decoded_json_ecr_policy       = var.ecr_params.is_create_ecr_policy ? jsonencode(yamldecode(file(var.ecr_params.ecr_policy_file))) : ""
+}
