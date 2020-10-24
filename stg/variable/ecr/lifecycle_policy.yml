@@ -1,0 +1,14 @@
+# release tagのイメージは１０イメージまで保存
+rules:
+  -
+    rulePriority: 1
+    description: "Keep last 10 release tagged image"
+    selection:
+      tagStatus: "tagged"
+      tagPrefixList: 
+        - release
+        - stg
+      countType: "imageCountMoreThan"
+      countNumber: 10
+    action:
+      type: "expire"
