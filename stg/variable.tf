@@ -147,6 +147,12 @@ variable "fargate_params" {
       cpu                  = "256"
       memory               = "512"
       container_definition = "./variable/fargate/task_definition.yml"
+    },
+    ecs_service = {
+      desired_count                     = 2
+      platform_version                  = "1.4.0"
+      health_check_grace_period_seconds = 60
+      assign_public_ip                  = false
     }
   }
 }

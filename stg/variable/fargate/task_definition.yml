@@ -1,5 +1,5 @@
 -
-  name: "stg-fargate"
+  name: "nginx"
   image: "nginx:latest"
   essential: true
   portMappings:

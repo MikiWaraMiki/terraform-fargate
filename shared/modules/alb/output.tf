@@ -12,5 +12,9 @@ output "alb_dns_name" {
 }
 output "alb_zone_id" {
   description = "alb zone id"
-  value = "${aws_lb.main_alb.zone_id}"
+  value       = "${aws_lb.main_alb.zone_id}"
+}
+output "target_group_arn" {
+  description = "alb target group arn"
+  value       = "${aws_lb_target_group.main_alb_tg.arn}"
 }

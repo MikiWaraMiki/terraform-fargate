@@ -97,4 +97,10 @@ module "fargate" {
     memory                = var.fargate_params.task_definition.memory
     container_definitions = jsonencode(yamldecode(file(var.fargate_params.task_definition.container_definition)))
   }
+  ecs_service_params        = var.fargate_params.ecs_service
+  security_group_ids        = [module.security_group.web_sg_id]
+  subnet_ids                = module.network.web_subnet_ids
+  target_group_arn          = module.alb.target_group_arn
+  alb_attach_container_name = "nginx"
+  alb_attach_container_port = 80
 }
