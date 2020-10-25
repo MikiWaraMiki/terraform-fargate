@@ -85,3 +85,16 @@ module "ecr" {
   is_create_ecr_policy          = var.ecr_params.is_create_ecr_policy
   decoded_json_ecr_policy       = var.ecr_params.is_create_ecr_policy ? jsonencode(yamldecode(file(var.ecr_params.ecr_policy_file))) : ""
 }
+
+
+module "fargate" {
+  source = "../shared/modules/fargate"
+
+  pjprefix = var.pjprefix
+  task_definition_params = {
+    family                = var.fargate_params.task_definition.family
+    cpu                   = var.fargate_params.task_definition.cpu
+    memory                = var.fargate_params.task_definition.memory
+    container_definitions = jsonencode(yamldecode(file(var.fargate_params.task_definition.container_definition)))
+  }
+}

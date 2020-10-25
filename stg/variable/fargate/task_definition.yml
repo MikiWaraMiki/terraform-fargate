@@ -1,0 +1,8 @@
+-
+  name: "stg-fargate"
+  image: "nginx:latest"
+  essential: true
+  portMappings:
+    -
+      protocol: tcp
+      containerPort: 80
