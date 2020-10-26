@@ -6,48 +6,66 @@ variable "pjprefix" {
   type    = string
   default = ""
 }
-variable "allow_alb_ingress_ips" {
-  type    = list(string)
+variable "name" {
+  type    = string
+  default = ""
+}
+variable "description" {
+  type    = string
+  default = ""
+}
+variable "ingress_rule_list" {
+  type = list(map(
+    {
+      description       = string
+      to_port           = number
+      from_port         = number
+      protocol          = string
+      security_group_id = string
+      cidr_blocks       = list(string)
+    }
+  ))
   default = []
 }
-variable "allow_rds_ingress_ips" {
-  type    = list(string)
-  default = []
-}
-variable "allow_elastic_cache_ips" {
-  type    = list(string)
-  default = []
-}
-
-
-module "alb_sg" {
-  source = "./alb"
-
-  vpc_id            = "${var.vpc_id}"
-  pjprefix          = "${var.pjprefix}"
-  allow_ingress_ips = "${var.allow_alb_ingress_ips}"
+variable "egress_rule_list" {
+  type = list(map(
+    {
+      description       = string
+      to_port           = number
+      from_port         = number
+      protocol          = string
+      security_group_id = string
+      cidr_blocks       = list(string)
+    }
+  ))
 }
 
-module "web_sg" {
-  source = "./web"
+resource "aws_security_group" "sg_main" {
+  name        = var.name
+  description = var.description
+  vpc_id      = var.vpc_id
 
-  vpc_id    = "${var.vpc_id}"
-  pjprefix  = "${var.pjprefix}"
-  alb_sg_id = "${module.alb_sg.sg_id}"
+  tags = {
+    Name     = var.name
+    PJPrefix = var.pjprefix
+  }
+}
+resource "aws_security_group_rule" "ingress_rules" {
+  count = length(var.ingress_rule_list)
+
+  description              = lookup(element(var.ingress_rule_list, count.index), "description", "")
+  type                     = "ingress"
+  protocol                 = lookup(element(var.ingress_rule_list, count.index), "protocol", "")
+  source_security_group_id = lookup(element(var.ingress_rule_list, count.index), "security_group_id", null)
+  cidr_blocks              = lookup(element(var.ingress_rule_list, count.index), "cidr_block", null)
+  security_group_id        = aws_security_group.sg_main.id
 }
 
-module "rds_sg" {
-  source                = "./rds"
-  vpc_id                = "${var.vpc_id}"
-  pjprefix              = "${var.pjprefix}"
-  web_sg_id             = "${module.web_sg.sg_id}"
-  allow_rds_ingress_ips = "${var.allow_rds_ingress_ips}"
-}
-
-module "elastic_cache_sg" {
-  source                  = "./elasticcache"
-  vpc_id                  = "${var.vpc_id}"
-  pjprefix                = "${var.pjprefix}"
-  web_sg_id               = "${module.web_sg.sg_id}"
-  allow_elastic_cache_ips = "${var.allow_elastic_cache_ips}"
+resource "aws_security_group_rule" "egress_rules" {
+  description              = lookup(element(var.egress_rule_list, count.index), "description", "")
+  type                     = "egress"
+  protocol                 = lookup(element(var.egress_rule_list, count.index), "protocol", "")
+  source_security_group_id = lookup(element(var.egress_rule_list, count.index), "security_group_id", null)
+  cidr_block               = lookup(element(var.egress_rule_list, count.index), "cidr_block", null)
+  security_group_id        = aws_security_group.sg_main.id
 }

@@ -89,6 +89,39 @@ variable "acl_egress_black_list" {
 variable "allow_alb_ingress_ips" {
   default = []
 }
+# ALB
+variable "alb_sg" {
+  default = {
+    description = "ALB Security Group. Ingress Allow HTTP, HTTPS"
+    ingress_rule_list = [
+      {
+        description       = "allow http from all"
+        to_port           = 80
+        from_port         = 80
+        protocol          = "tcp"
+        security_group_id = null
+        cidr_blocks       = ["0.0.0.0/0"]
+      },
+      {
+        description       = "allow https from all"
+        to_port           = 443
+        to_port           = 443
+        protocol          = "tcp"
+        security_group_id = null
+        cidr_blocks       = ["0.0.0.0/0"]
+      }
+    ]
+    egress_rule_list = [
+      {
+        description = "all allow"
+        to_port     = 65535
+        from_port   = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
+    ]
+  }
+}
 variable "acm_domain" {
 }
 
@@ -100,6 +133,16 @@ variable "zone_name" {
 }
 
 # Elastic Cache
+variable "elastic_cache_sg" {
+  default = {
+    description = "Elastic Cache Securiy Group allow"
+    ingress_rule_list = [
+      {
+        description = "allow redis from fargate"
+      }
+    ]
+  }
+}
 variable "elastic_cache_params" {
   default = {
     is_create_parameter_group : true,
