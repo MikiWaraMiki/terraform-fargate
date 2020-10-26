@@ -68,3 +68,30 @@ output "ec_subnet_group_name" {
   description = "ElasticCache subnet group name"
   value       = module.elastic_cache.subnet_group_name
 }
+
+# Fargate
+output "ecs_cluster_arn" {
+  description = "Fargate Cluster ARN. If Cluster created, this is shown"
+  value       = module.fargate.cluster_arn
+}
+output "ecs_task_definition_arn" {
+  description = "Fargate Task Definition Arn. If created, this is shown"
+  value       = module.fargate.task_definition_arn
+}
+
+output "ecs_iam_role_arn" {
+  description = "Fargate iam role arn."
+  value       = module.fargate_iam.iam_role_arn
+}
+output "ecs_iam_role_name" {
+  description = "Fargate iam role name."
+  value       = module.fargate_iam.iam_role_name
+}
+output "ecs_service_arn" {
+  description = "Fargate Service arn."
+  value       = module.fargate.service_arn
+}
+output "ecs_service_name" {
+  description = "Fargate Service name"
+  value       = module.fargate.service_name
+}

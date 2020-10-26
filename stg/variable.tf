@@ -138,3 +138,24 @@ variable "ecr_params" {
     is_create_ecr_policy          = false,
   }
 }
+
+# Fargate
+variable "fargate_params" {
+  default = {
+    task_definition = {
+      family               = "stg-fargate"
+      cpu                  = "256"
+      memory               = "512"
+      container_definition = "./variable/fargate/task_definition.yml"
+    },
+    ecs_service = {
+      desired_count                     = 2
+      platform_version                  = "1.4.0"
+      health_check_grace_period_seconds = 60
+      assign_public_ip                  = false
+    },
+    ecs_logging_params = {
+      retention_in_days = 180
+    }
+  }
+}
