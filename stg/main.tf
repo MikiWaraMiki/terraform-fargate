@@ -87,6 +87,26 @@ module "ecr" {
 }
 
 
+data "aws_iam_policy" "ecs_task_execution_role_policy" {
+  # 固定 ARN
+  arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+data "aws_iam_policy_document" "ecs_task_execution" {
+  # デフォルトを継承する
+  source_json = data.aws_iam_policy.ecs_task_execution_role_policy.policy
+
+  statement {
+    effect    = "Allow"
+    actions   = ["ssm:GetParameters", "kms:Decrypt"]
+    resources = ["*"]
+  }
+}
+module "fargate_iam" {
+  source     = "../shared/modules/iam"
+  name       = "ecs-task-execution-${var.pjprefix}"
+  policy     = data.aws_iam_policy_document.ecs_task_execution.json
+  identifier = "ecs-tasks.amazonaws.com"
+}
 module "fargate" {
   source = "../shared/modules/fargate"
 
@@ -96,6 +116,7 @@ module "fargate" {
     cpu                   = var.fargate_params.task_definition.cpu
     memory                = var.fargate_params.task_definition.memory
     container_definitions = jsonencode(yamldecode(file(var.fargate_params.task_definition.container_definition)))
+    execution_role_arn    = module.fargate_iam.iam_role_arn
   }
   ecs_service_params        = var.fargate_params.ecs_service
   security_group_ids        = [module.security_group.web_sg_id]
@@ -103,4 +124,5 @@ module "fargate" {
   target_group_arn          = module.alb.target_group_arn
   alb_attach_container_name = "nginx"
   alb_attach_container_port = 80
+  ecs_logging_params        = var.fargate_params.ecs_logging_params
 }

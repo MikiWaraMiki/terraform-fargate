@@ -2,6 +2,10 @@ variable "container_definitions" {
   type    = string
   default = ""
 }
+variable "execution_role_arn" {
+  type    = string
+  default = ""
+}
 variable "family" {
   type    = string
   default = ""
@@ -26,6 +30,8 @@ resource "aws_ecs_task_definition" "main" {
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   container_definitions    = var.container_definitions
+  # roleはアタッチしない場合もあるため任意
+  execution_role_arn = (var.execution_role_arn == "" || var.execution_role_arn == null) ? null : var.execution_role_arn
 
   tags = {
     Name     = "task-definition-${var.pjprefix}"

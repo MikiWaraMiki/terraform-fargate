@@ -41,6 +41,11 @@ variable "alb_attach_container_port" {
   type    = number
   default = 80
 }
+# Logging
+variable "ecs_logging_params" {
+  type    = map
+  default = null
+}
 
 module "cluster" {
   count = var.ecs_cluster_arn == "" ? 1 : 0
@@ -58,6 +63,7 @@ module "task_definition" {
   cpu                   = var.task_definition_params.cpu
   memory                = var.task_definition_params.memory
   pjprefix              = var.pjprefix
+  execution_role_arn    = lookup(var.task_definition_params, "execution_role_arn", null)
 }
 
 
@@ -76,4 +82,12 @@ module "ecs_service" {
   target_group_arn                  = var.target_group_arn
   container_name                    = var.alb_attach_container_name
   container_port                    = var.alb_attach_container_port
+}
+
+module "ecs_logging" {
+  source = "./logging"
+
+  pjprefix          = var.pjprefix
+  name              = var.ecs_logging_params != null ? lookup(var.ecs_logging_params, "name", null) : null
+  retention_in_days = var.ecs_logging_params != null ? lookup(var.ecs_logging_params, "retention_in_days", null) : null
 }

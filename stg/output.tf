@@ -79,6 +79,14 @@ output "ecs_task_definition_arn" {
   value       = module.fargate.task_definition_arn
 }
 
+output "ecs_iam_role_arn" {
+  description = "Fargate iam role arn."
+  value       = module.fargate_iam.iam_role_arn
+}
+output "ecs_iam_role_name" {
+  description = "Fargate iam role name."
+  value       = module.fargate_iam.iam_role_name
+}
 output "ecs_service_arn" {
   description = "Fargate Service arn."
   value       = module.fargate.service_arn

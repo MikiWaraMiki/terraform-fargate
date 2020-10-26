@@ -153,6 +153,9 @@ variable "fargate_params" {
       platform_version                  = "1.4.0"
       health_check_grace_period_seconds = 60
       assign_public_ip                  = false
+    },
+    ecs_logging_params = {
+      retention_in_days = 180
     }
   }
 }

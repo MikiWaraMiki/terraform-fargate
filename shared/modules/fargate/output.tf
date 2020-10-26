@@ -11,3 +11,7 @@ output "service_arn" {
 output "service_name" {
   value = module.ecs_service.name
 }
+
+output "logging_cloudwatch_arn" {
+  value = module.ecs_logging.arn
+}
