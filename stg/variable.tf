@@ -159,3 +159,23 @@ variable "fargate_params" {
     }
   }
 }
+
+# Aurora
+variable "aurora_params" {
+  default = {
+    parameter_group_params : {
+      name   = ""
+      family = "mysql5.7"
+      parameters = [
+        {
+          name  = "character_set_database"
+          value = "utf8mb4"
+        },
+        {
+          name  = "character_set_server"
+          value = "utf8mb4"
+        },
+      ]
+    }
+  }
+}

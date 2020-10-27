@@ -126,3 +126,10 @@ module "fargate" {
   alb_attach_container_port = 80
   ecs_logging_params        = var.fargate_params.ecs_logging_params
 }
+
+module "aurora" {
+  source = "../shared/modules/aurora"
+
+  parameter_group_params = var.aurora_params.parameter_group_params
+  pjprefix               = var.pjprefix
+}

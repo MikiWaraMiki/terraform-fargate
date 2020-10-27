@@ -95,3 +95,9 @@ output "ecs_service_name" {
   description = "Fargate Service name"
   value       = module.fargate.service_name
 }
+
+# Aurora
+output "db_parameter_group_name" {
+  description = "Aurora Parameter Group name"
+  value       = module.aurora.parameter_group_name
+}
