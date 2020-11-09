@@ -176,6 +176,31 @@ variable "aurora_params" {
           value = "utf8mb4"
         },
       ]
+    },
+    option_group_params : {
+      name                 = ""
+      engine_name          = "mysql"
+      major_engine_version = "5.7"
+      options = [
+        {
+          option_name = "MARIADB_AUDIT_PLUGIN"
+        }
+      ]
+    },
+    aurora_cluster_params : {
+      engine                       = "aurora"
+      engine_version               = "5.7.2.07.2"
+      engine_mode                  = "provisioned"
+      db_port                      = "3306"
+      db_name                      = "contents"
+      db_master_user_name          = "admin"
+      db_master_user_password      = "qWFXwWrj6nsURniJEjsf"
+      backup_retention_period      = 7
+      preferred_backup_window      = "19:00-20:00"
+      preferred_maintenance_window = "sun:20:00-sun:21:00"
+      backtrack_window             = 259200
+      aurora_instance_num          = 2
+      instance_class               = "db.t3.small"
     }
   }
 }

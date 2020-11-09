@@ -14,12 +14,17 @@ variable "pjprefix" {
   type    = string
   default = ""
 }
+variable "is_cluster" {
+  type    = bool
+  default = true
+}
 
 locals {
   pg_name = (var.name == "" || var.name == null) ? "db-parameter-group-${var.pjprefix}" : var.name
 }
 
 resource "aws_db_parameter_group" "db_pg" {
+  count  = var.is_cluster ? 0 : 1
   name   = local.pg_name
   family = var.family
   dynamic "parameter" {
@@ -34,13 +39,30 @@ resource "aws_db_parameter_group" "db_pg" {
     PJPrefix = var.pjprefix
   }
 }
+resource "aws_rds_cluster_parameter_group" "db_cluster_pg" {
+  count  = var.is_cluster ? 1 : 0
+  name   = local.pg_name
+  family = var.family
+  dynamic "parameter" {
+    for_each = var.parameters
+
+    content {
+      name  = lookup(parameter.value, "name", null)
+      value = lookup(parameter.value, "value", null)
+    }
+  }
+
+  tags = {
+    PJPrefix = var.pjprefix
+  }
+}
 
 output "id" {
-  value = aws_db_parameter_group.db_pg.id
+  value = var.is_cluster ? aws_rds_cluster_parameter_group.db_cluster_pg[0].id : aws_db_parameter_group.db_pg[0].id
 }
 output "name" {
-  value = aws_db_parameter_group.db_pg.name
+  value = var.is_cluster ? aws_rds_cluster_parameter_group.db_cluster_pg[0].name : aws_db_parameter_group.db_pg[0].name
 }
 output "arn" {
-  value = aws_db_parameter_group.db_pg.arn
+  value = var.is_cluster ? aws_rds_cluster_parameter_group.db_cluster_pg[0].arn : aws_db_parameter_group.db_pg[0].arn
 }
