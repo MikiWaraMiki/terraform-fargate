@@ -159,3 +159,48 @@ variable "fargate_params" {
     }
   }
 }
+
+# Aurora
+variable "aurora_params" {
+  default = {
+    parameter_group_params : {
+      name   = ""
+      family = "aurora-mysql5.7"
+      parameters = [
+        {
+          name  = "character_set_database"
+          value = "utf8mb4"
+        },
+        {
+          name  = "character_set_server"
+          value = "utf8mb4"
+        },
+      ]
+    },
+    option_group_params : {
+      name                 = ""
+      engine_name          = "mysql"
+      major_engine_version = "5.7"
+      options = [
+        {
+          option_name = "MARIADB_AUDIT_PLUGIN"
+        }
+      ]
+    },
+    aurora_cluster_params : {
+      engine                       = "aurora-mysql"
+      engine_version               = "5.7.mysql_aurora.2.09.0"
+      engine_mode                  = "provisioned"
+      db_port                      = "3306"
+      db_name                      = "contents"
+      db_master_user_name          = "admin"
+      db_master_user_password      = "qWFXwWrj6nsURniJEjsf"
+      backup_retention_period      = 7
+      preferred_backup_window      = "19:00-20:00"
+      preferred_maintenance_window = "sun:20:00-sun:21:00"
+      backtrack_window             = 259200
+      aurora_instance_num          = 2
+      instance_class               = "db.t3.small"
+    }
+  }
+}
