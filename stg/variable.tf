@@ -165,7 +165,7 @@ variable "aurora_params" {
   default = {
     parameter_group_params : {
       name   = ""
-      family = "mysql5.7"
+      family = "aurora-mysql5.7"
       parameters = [
         {
           name  = "character_set_database"
@@ -188,8 +188,8 @@ variable "aurora_params" {
       ]
     },
     aurora_cluster_params : {
-      engine                       = "aurora"
-      engine_version               = "5.7.2.07.2"
+      engine                       = "aurora-mysql"
+      engine_version               = "5.7.mysql_aurora.2.09.0"
       engine_mode                  = "provisioned"
       db_port                      = "3306"
       db_name                      = "contents"
